@@ -9,7 +9,7 @@ const login = async (req, res, next) => {
     });
 
     if (account) {
-      res.status(400).json({
+      res.status(200).json({
         status: 'success',
         message: 'Login successfully',
         data: {
