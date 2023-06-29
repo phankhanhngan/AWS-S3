@@ -17,7 +17,6 @@ const login = async (req, res, next) => {
         __v: account.__v,
         avatar: account.avatar,
       };
-      console.log('account.avatar', account.avatar);
       res.status(200).json({
         status: 'success',
         message: 'Login successfully',

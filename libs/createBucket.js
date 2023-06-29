@@ -7,4 +7,3 @@ const input = {
 
 const command = new CreateBucketCommand(input);
 const response = await s3Client.send(command);
-// console.log(response);

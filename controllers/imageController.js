@@ -8,9 +8,9 @@ import { Account } from '../models/accountModel.js';
 const getS3SignedUrl = async (req, res, next) => {
   try {
     const { fileType } = req.query;
-
+    const time = Date.now()
     const expand = fileType.split('/')[1];
-    const key = `${res.locals.username}/avatar.${expand}`;
+    const key = `${res.locals.username}/${time}.${expand}`;
      
     const command = new PutObjectCommand({
       Bucket: process.env.S3_BUCKET,
@@ -22,17 +22,12 @@ const getS3SignedUrl = async (req, res, next) => {
       expiresIn: 3600,
     });
 
-    // const result = await axios.put(signedUrl, data, {
-    //   headers: {
-    //     'Content-Type': fileType
-    //   }
-    // });
-
     res.status(200).json({
       status: 'success',
       message: 'Get signed url successfully',
       data: {
         signedUrl,
+        key
       },
     });
   } catch (err) {

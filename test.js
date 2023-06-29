@@ -21,13 +21,11 @@ try {
   });
 
   fs.readFile('nhung.jpg', async (err, data) => {
-    // console.log(data);
     const result = await axios.put(signedUrl, data, {
       headers: {
         'Content-Type': fileType
       }
     });
-    // console.log(result);
   });
 } catch (err) {
   console.log(err);
