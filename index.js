@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import morgan from 'morgan';
 import 'dotenv/config';
-
+import cors from 'cors'
 import { imageRouter } from './routes/imageRoute.js';
 import { authRouter } from './routes/authRoute.js';
 import { errorHandler } from './utils/errorHandler.js';
@@ -18,7 +18,9 @@ try {
       throw err;
     }
   );
-
+  app.use(cors({
+    allowedHeaders: '*'
+  }));
   app.use(morgan('tiny'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -28,8 +30,8 @@ try {
 
   app.use(errorHandler);
 
-  app.listen(3000, () => {
-    console.log('Listening on port 3000...');
+  app.listen(5000, () => {
+    console.log('Listening on port 5000...');
   });
 } catch (err) {
   console.log(err);

@@ -9,17 +9,17 @@ const getS3SignedUrl = async (req, res, next) => {
   try {
     const { fileType } = req.query;
 
-    const expand = fileType.split('/')[1]
+    const expand = fileType.split('/')[1];
     const key = `${res.locals.username}/avatar.${expand}`;
-
+     
     const command = new PutObjectCommand({
       Bucket: process.env.S3_BUCKET,
       Key: key,
-      ContentType: fileType
+      ContentType: fileType,
     });
 
     const signedUrl = await getSignedUrl(s3Client, command, {
-      expiresIn: 3600
+      expiresIn: 3600,
     });
 
     // const result = await axios.put(signedUrl, data, {
@@ -32,8 +32,8 @@ const getS3SignedUrl = async (req, res, next) => {
       status: 'success',
       message: 'Get signed url successfully',
       data: {
-        signedUrl
-      }
+        signedUrl,
+      },
     });
   } catch (err) {
     return next(err);
@@ -48,34 +48,34 @@ const upload = async (req, res, next) => {
     await Account.updateOne(
       { username },
       {
-        avatar: path
-      }
+        avatar: path,
+      },
     );
 
     res.status(200).json({
       status: 'success',
-      message: 'Save path successfully'
+      message: 'Save path successfully',
     });
   } catch (err) {
     next(err);
   }
 };
 
-const getImage = async (req,res,next) => {
+const getImage = async (req, res, next) => {
   try {
     const username = res.locals.username;
 
-    const path = (await Account.findOne({username})).avatar;
+    const path = (await Account.findOne({ username })).avatar;
 
     res.status(200).json({
       status: 'success',
       message: 'Get path successfully',
       data: {
-        path
-      }
+        path,
+      },
     });
   } catch (err) {
     next(err);
   }
-}
+};
 export { getS3SignedUrl, upload, getImage };
