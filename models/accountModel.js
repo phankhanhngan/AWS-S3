@@ -20,13 +20,16 @@ const accountSchema = new Schema({
 
 accountSchema.pre('save', async function (next) {
   const saltRounds = 10;
-  this.password = await bcrypt.hash(password, saltRounds);
+  this.password = await bcrypt.hash(this.password, saltRounds);
   next();
-})
+});
 
-accountSchema.methods.isPasswordMatched = async (password, candidatePassword) => {
+accountSchema.methods.isPasswordMatched = async (
+  password,
+  candidatePassword
+) => {
   return await bcrypt.compare(password, candidatePassword);
-}
+};
 
 const Account = mongoose.model('Account', accountSchema);
 
